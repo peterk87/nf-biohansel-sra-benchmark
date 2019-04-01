@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 params.accessions = "$baseDir/accessions.txt"
-params.outdir = "$baseDir/results"
+params.outdir = "results"
 params.help = false
 params.scheme = 'heidelberg'
 
