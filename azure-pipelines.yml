@@ -5,12 +5,12 @@ container: nfcore/base:latest
 
 steps:
 - script: printenv
-- bash: echo "##vso[task.prependpath]$CONDA/bin"
-  displayName: Add conda to PATH
-- bash: sudo chown -R $USER /usr/share/miniconda
-  displayName: Take ownership of conda installation
-- script: java -version
-  displayName: Java version
+#- bash: echo "##vso[task.prependpath]$CONDA/bin"
+#  displayName: Add conda to PATH
+#- bash: sudo chown -R $USER /usr/share/miniconda
+#  displayName: Take ownership of conda installation
+#- script: java -version
+#  displayName: Java version
 - script: |
     conda install nextflow
   displayName: Install Nextflow
