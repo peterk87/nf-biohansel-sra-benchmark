@@ -1,0 +1,23 @@
+pool:
+    vmImage: 'ubuntu-16.04'
+
+container: nfcore/base:latest
+
+steps:
+- script: printenv
+- bash: echo "##vso[task.prependpath]$CONDA/bin"
+  displayName: Add conda to PATH
+- bash: sudo chown -R $USER /usr/share/miniconda
+  displayName: Take ownership of conda installation
+- script: java -version
+  displayName: Java version
+- script: |
+    conda install nextflow
+  displayName: Install Nextflow
+- script: |
+    nextflow run peterk87/nf-biohansel-sra-benchmark --help
+  displayName: Print help message for workflow
+- script: |
+    nextflow run peterk87/nf-biohansel-sra-benchmark
+  displayName: Run workflow on test data
+
