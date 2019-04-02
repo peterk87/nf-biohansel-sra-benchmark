@@ -9,20 +9,16 @@ steps:
 #  displayName: Add conda to PATH
 #- bash: sudo chown -R $USER /usr/share/miniconda
 #  displayName: Take ownership of conda installation
-#- script: java -version
-#  displayName: Java version
 - script: |
     conda config --add channels defaults
     conda config --add channels bioconda
     conda config --add channels conda-forge
   displayName: Configure conda channels
 - script: |
-    curl -s https://get.nextflow.io | bash
-    mkdir -p $HOME/bin
-    mv nextflow $HOME/bin/
+    conda install nextflow -y
   displayName: Install Nextflow
-- bash: echo "##vso[task.prependpath]$HOME/bin"
-  displayName: Add ~/bin to PATH
+- script: java -version
+  displayName: Java version
 - script: |
     nextflow run peterk87/nf-biohansel-sra-benchmark --help
   displayName: Print help message for workflow
