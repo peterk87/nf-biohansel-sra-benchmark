@@ -1,14 +1,16 @@
 pool:
   vmImage: 'ubuntu-16.04'
 
-container: nfcore/base:latest
+#container: nfcore/base:latest
 
 steps:
 - script: printenv
-#- bash: echo "##vso[task.prependpath]$CONDA/bin"
-#  displayName: Add conda to PATH
-#- bash: sudo chown -R $USER /usr/share/miniconda
-#  displayName: Take ownership of conda installation
+- bash: echo "##vso[task.prependpath]$CONDA/bin"
+  displayName: Add conda to PATH
+- bash: sudo chown -R $USER /usr/share/miniconda
+  displayName: Take ownership of conda installation
+- script: java -version
+  displayName: Java version
 - script: |
     conda config --add channels defaults
     conda config --add channels bioconda
@@ -17,8 +19,6 @@ steps:
 - script: |
     conda install nextflow -y
   displayName: Install Nextflow
-- script: java -version
-  displayName: Java version
 - script: |
     nextflow run peterk87/nf-biohansel-sra-benchmark --help
   displayName: Print help message for workflow
