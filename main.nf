@@ -4,7 +4,7 @@ params.accessions = "$baseDir/accessions.txt"
 params.outdir = "results"
 params.help = false
 params.scheme = 'heidelberg'
-params.biohansel_threads = 8
+params.biohansel_threads = 2
 
 outdir = params.outdir
 
@@ -64,7 +64,7 @@ process fasterq_dump {
   tag "$accession"
   publishDir "$outdir/fastqs/$accession", mode: 'symlink', pattern: "*.fastq"
   conda 'bioconda::sra-tools'
-  cpus 8
+  cpus 2
 
   input:
     val(accession) from ch_accessions
