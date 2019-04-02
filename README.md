@@ -1,5 +1,7 @@
 # nf-biohansel-sra-benchmark
 
+[![Build Status](https://dev.azure.com/peterkruczkiewicz0831/nf-biohansel-sra-benchmark/_apis/build/status/peterk87.nf-biohansel-sra-benchmark?branchName=master)](https://dev.azure.com/peterkruczkiewicz0831/nf-biohansel-sra-benchmark/_build/latest?definitionId=2&branchName=master)
+
 Basic Nextflow workflow for benchmarking [biohansel](https://github.com/phac-nml/biohansel) against NCBI SRA samples
 
 ## Pre-reqs
