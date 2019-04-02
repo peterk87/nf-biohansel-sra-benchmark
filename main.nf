@@ -4,6 +4,7 @@ params.accessions = "$baseDir/accessions.txt"
 params.outdir = "results"
 params.help = false
 params.scheme = 'heidelberg'
+params.biohansel_threads = 8
 
 outdir = params.outdir
 
@@ -63,6 +64,7 @@ process fasterq_dump {
   tag "$accession"
   publishDir "$outdir/fastqs/$accession", mode: 'symlink', pattern: "*.fastq"
   conda 'bioconda::sra-tools'
+  cpus 8
 
   input:
     val(accession) from ch_accessions
@@ -74,21 +76,44 @@ process fasterq_dump {
   """
 }
 
+ch_fastqs
+  .flatMap { it[1] }
+  .collect()
+  .dump(tag: "ch_collected_fastqs")
+  .set { ch_collected_fastqs }
+
 process biohansel {
-  tag "$accession"
+//  tag "$accession"
   conda 'bioconda::bio_hansel=2.1.1 conda-forge::pyahocorasick'
-  publishDir "$outdir/biohansel/summary_report", mode: 'copy', pattern: "*-summary_report.tsv"
-  publishDir "$outdir/biohansel/detailed_report", mode: 'copy', pattern: "*-detailed_report.tsv"
+  publishDir "$outdir/biohansel", mode: 'copy', pattern: "*.tsv"
+  cpus params.biohansel_threads
 
   input:
-    set val(accession), file(reads) from ch_fastqs
+    file(reads) from ch_collected_fastqs
   output:
-    set val(accession), file(detailed_report), file(summary_report) into ch_biohansel
+    set file(detailed_report), file(summary_report) into ch_biohansel
   script:
-  detailed_report = "${accession}-detailed_report.tsv"
-  summary_report = "${accession}-summary_report.tsv"
+  detailed_report = "biohansel-detailed_report.tsv"
+  summary_report = "biohansel-summary_report.tsv"
   """
-  hansel -s ${params.scheme} $reads -o $summary_report -O $detailed_report
+  hansel -v -t ${task.cpus} -s ${params.scheme} -D ./ -o $summary_report -O $detailed_report
   """
+}
+
+workflow.onComplete {
+    println """
+    Pipeline execution summary
+    ---------------------------
+    Completed at : ${workflow.complete}
+    Duration     : ${workflow.duration}
+    Success      : ${workflow.success}
+    Results Dir  : ${file(params.outdir)}
+    Work Dir     : ${workflow.workDir}
+    Exit status  : ${workflow.exitStatus}
+    Error report : ${workflow.errorReport ?: '-'}
+    """.stripIndent()
+}
+workflow.onError {
+    println "Oops... Pipeline execution stopped with the following message: ${workflow.errorMessage}"
 }
 
