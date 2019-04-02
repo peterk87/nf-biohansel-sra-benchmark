@@ -12,6 +12,9 @@ steps:
 #- script: java -version
 #  displayName: Java version
 - script: |
+    conda config --add channels defaults
+    conda config --add channels bioconda
+    conda config --add channels conda-forge
     conda install nextflow
   displayName: Install Nextflow
 - script: |
