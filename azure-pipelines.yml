@@ -15,12 +15,17 @@ steps:
     conda config --add channels defaults
     conda config --add channels bioconda
     conda config --add channels conda-forge
-    conda install nextflow
+  displayName: Configure conda channels
+- script: |
+    curl -s https://get.nextflow.io | bash
+    mkdir -p $HOME/bin
+    mv nextflow $HOME/bin/
   displayName: Install Nextflow
+- bash: echo "##vso[task.prependpath]$HOME/bin"
+  displayName: Add ~/bin to PATH
 - script: |
     nextflow run peterk87/nf-biohansel-sra-benchmark --help
   displayName: Print help message for workflow
 - script: |
     nextflow run peterk87/nf-biohansel-sra-benchmark
   displayName: Run workflow on test data
-
