@@ -84,7 +84,7 @@ ch_fastqs
 
 process biohansel {
 //  tag "$accession"
-  conda 'bioconda::bio_hansel=2.1.1 conda-forge::pyahocorasick'
+  conda 'bioconda::bio_hansel=2.2.0 conda-forge::pyahocorasick'
   publishDir "$outdir/biohansel", mode: 'copy', pattern: "*.tsv"
   cpus params.biohansel_threads
 
