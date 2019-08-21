@@ -23,8 +23,8 @@ steps:
     conda install nextflow -y
   displayName: Install Nextflow
 - script: |
-    nextflow run peterk87/nf-biohansel-sra-benchmark --help
+    nextflow run main.nf --help
   displayName: Print help message for workflow
 - script: |
-    nextflow run peterk87/nf-biohansel-sra-benchmark -profile conda,test
+    nextflow run main.nf -profile conda,test
   displayName: Run workflow on test data
