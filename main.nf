@@ -163,7 +163,6 @@ ch_schemes_shuffled
 process fasterq_dump {
   tag "$accession"
   publishDir "$outdir/fastqs/$scheme/$accession", mode: 'symlink', pattern: "*.fastq.gz"
-  cpus 6
   maxForks 4
 
   input:
