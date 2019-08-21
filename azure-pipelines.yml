@@ -1,7 +1,7 @@
 pool:
   vmImage: 'ubuntu-16.04'
 
-#container: nfcore/base:latest
+# container: continuumio/miniconda3:4.6.14
 
 steps:
 - script: printenv
@@ -17,11 +17,14 @@ steps:
     conda config --add channels conda-forge
   displayName: Configure conda channels
 - script: |
+    conda install conda=4.7.11 -y
+  displayName: Update Conda
+- script: |
     conda install nextflow -y
   displayName: Install Nextflow
 - script: |
-    nextflow run peterk87/nf-biohansel-sra-benchmark --help
+    nextflow run main.nf --help
   displayName: Print help message for workflow
 - script: |
-    nextflow run peterk87/nf-biohansel-sra-benchmark
+    nextflow run main.nf -profile conda,test
   displayName: Run workflow on test data

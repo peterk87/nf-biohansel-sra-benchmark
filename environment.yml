@@ -1,0 +1,12 @@
+name: nf-biohansel-sra-benchmarking-1.0dev
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - sra-tools=2.9.6
+  - bbmap
+  - bio_hansel==2.2.0
+  - snippy=4.4.1
+  - pip:
+    - click
