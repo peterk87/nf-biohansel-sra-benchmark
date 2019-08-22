@@ -271,6 +271,7 @@ process snippy {
   snippy --prefix $accession \\
     --outdir out \\
     --cpus ${task.cpus} \\
+    --ram ${task.memory.toGiga()} \\
     --R1 $reads1 \\
     --R2 $reads2 \\
     --ref $ref_genbank \\
